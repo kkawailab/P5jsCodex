@@ -64,6 +64,31 @@ function draw() {
 }
 ```
 
+## 追加サンプル：スライダーで図形サイズを調整する
+```javascript
+let sizeSlider; // 円の直径を決めるスライダー
+
+function setup() {
+  createCanvas(480, 320); // 学習しやすい小さめのキャンバス
+  sizeSlider = createSlider(10, 200, 80); // 最小10、最大200、初期値80のスライダーを生成
+  sizeSlider.position(20, 20); // スライダーをキャンバス左上に配置
+}
+
+function draw() {
+  background(240); // 背景を明るい色で塗る
+
+  const circleSize = sizeSlider.value(); // スライダーの値を取得して直径として使う
+  fill(100, 180, 255); // 落ち着いた青色で塗りつぶす
+  noStroke(); // 円の輪郭線を消す
+  circle(width / 2, height / 2, circleSize); // 中央に円を描画
+
+  fill(50); // ラベル用の文字色
+  textSize(16); // 文字サイズを控えめに設定
+  textAlign(LEFT, CENTER); // テキストを左揃えにする
+  text(`直径: ${circleSize}px`, 20, height - 30); // 現在の直径を画面下部に表示
+}
+```
+
 ## よくあるエラーと対策
 - **キャンバスが表示されない**: `createCanvas()`を呼び出しているか確認しましょう。
 - **背景が描き直されない**: `draw()`内で`background()`を呼び出していないと、前の描画が残り続けます。

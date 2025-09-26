@@ -100,6 +100,48 @@ function draw() {
 }
 ```
 
+## 追加サンプル：ノイズで動く星空のパレード
+```javascript
+let stars = []; // 星の位置と動きを保持する配列
+let noiseOffset = 0; // ノイズ関数の時間に相当する値
+
+function setup() {
+  createCanvas(500, 500); // 星空を表示する正方形キャンバス
+  for (let i = 0; i < 80; i++) {
+    stars.push({
+      x: random(width), // ランダムなx座標
+      y: random(height), // ランダムなy座標
+      size: random(2, 6), // 星の大きさ
+      speed: random(0.002, 0.01) // ノイズに使う速度
+    });
+  }
+}
+
+function draw() {
+  background(10, 10, 30); // 夜空のような濃い青
+
+  noStroke();
+  fill(255);
+
+  for (const star of stars) {
+    const n = noise(noiseOffset * star.speed, star.x * 0.01); // 時間と位置でノイズを生成
+    const twinkle = map(n, 0, 1, 0.3, 1); // ノイズを0.3〜1.0の明るさに変換
+
+    const glow = twinkle * 255; // 明るさを0〜255の範囲に変換
+    fill(glow, glow, 255); // 青白い光を設定
+    circle(star.x, star.y + sin(frameCount * 0.01 + star.x * 0.05) * 5, star.size * twinkle); // ふわふわ上下する星
+  }
+
+  noiseOffset += 0.01; // ノイズの時間を進める
+
+  // 流れ星を描画
+  const streakX = (frameCount * 3) % (width + 200) - 100; // 線のx位置（画面外から出入り）
+  stroke(255, 240, 200);
+  strokeWeight(3);
+  line(streakX, height * 0.2, streakX - 80, height * 0.2 + 20); // 斜めに伸びる光跡
+}
+```
+
 ## ミニプロジェクトの拡張アイデア
 - ポーズ機能を作り、`keyPressed()`でON/OFFできるようにする。
 - ボールが落下したらゲームオーバーにし、`score`をリセットする。

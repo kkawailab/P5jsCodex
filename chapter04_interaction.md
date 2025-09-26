@@ -83,6 +83,56 @@ function keyPressed() {
 }
 ```
 
+## 追加サンプル：マウスドラッグでお絵描きする
+```javascript
+let drawing = []; // 描いた線分を保存する配列
+let isEraser = false; // 消しゴムモードかどうか
+
+function setup() {
+  createCanvas(600, 400); // スケッチブックを意識した広いキャンバス
+  background(255); // 真っ白な紙の状態に初期化
+}
+
+function draw() {
+  background(255); // 毎フレーム背景を塗り直して最新の線を再描画
+
+  for (const segment of drawing) {
+    stroke(segment.isEraser ? 255 : segment.color); // 消しゴムの場合は白で上書き
+    strokeWeight(segment.weight); // 描画時に保存した線の太さを再現
+    line(segment.x1, segment.y1, segment.x2, segment.y2); // 線分を描く
+  }
+
+  // UIとして現在のモードを左上に表示
+  noStroke();
+  fill(0);
+  textSize(16);
+  textAlign(LEFT, TOP);
+  text(isEraser ? 'モード: 消しゴム (Eで切替)' : 'モード: ペン (Eで切替)', 10, 10);
+}
+
+function mouseDragged() {
+  const segment = {
+    x1: pmouseX, // 直前のマウス位置
+    y1: pmouseY,
+    x2: mouseX, // 現在のマウス位置
+    y2: mouseY,
+    weight: isEraser ? 30 : 4, // 消しゴムは太め、ペンは細めに設定
+    color: color(30, 30, 30), // ペンの色
+    isEraser: isEraser // モードを保存して後で再利用
+  };
+  drawing.push(segment); // 描いた線分を配列に追加
+}
+
+function keyPressed() {
+  if (key === 'e' || key === 'E') {
+    isEraser = !isEraser; // Eキーでモードを切り替える
+  }
+  if (key === 'c' || key === 'C') {
+    drawing = []; // Cキーで全消去
+  }
+}
+```
+
 ## 練習問題
 1. マウスクリックした場所に円を追加して、花火のように残る仕組みを作ってみましょう。
 2. キーボードの`A`キーで背景を暗くし、`S`キーで明るくする機能を加えてみましょう。
