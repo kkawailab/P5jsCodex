@@ -24,4 +24,7 @@
 - リファレンス: [https://p5js.org/reference/](https://p5js.org/reference/)
 - コミュニティフォーラム: [https://discourse.processing.org/](https://discourse.processing.org/)
 
+## 更新履歴
+- 2025-09-27 初版公開。
+
 各章の内容を理解しながら、自分だけのインタラクティブな作品を作ってみましょう！
